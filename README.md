@@ -1,17 +1,19 @@
-# agent-skills
+# agent-resources
 
-Shared agent skills for general workflows I want to reuse across repos and
-share with other people. The skills use the `SKILL.md` directory format and can
-be installed for Codex or Claude Code.
+Shared agent resources for general workflows and context I want to reuse across
+repos and share with other people. Skills use the `SKILL.md` directory format
+and can be installed for Codex or Claude Code. Context docs are plain Markdown
+files that routers can load when the task matches.
 
-This repository is a home for reusable skills. `agents-md-builder` is one skill
-inside the collection, not the repo's whole identity.
+This repository is a home for reusable skills and shared context docs.
+`agents-md-builder` is one skill inside the collection, not the repo's whole
+identity.
 
 ## Install
 
 ```bash
-git clone https://github.com/matiascshaha/agent-skills.git
-cd agent-skills
+git clone https://github.com/matiascshaha/agent-resources.git
+cd agent-resources
 ./scripts/install.sh --target codex
 ```
 
@@ -30,8 +32,9 @@ Install for both:
 Default destinations:
 
 ```text
-Codex:  ~/.codex/skills
-Claude: ~/.claude/skills
+Codex skills:   ~/.codex/skills
+Claude skills:  ~/.claude/skills
+Shared context: ~/.agent-resources/context
 ```
 
 Override the destination when needed:
@@ -56,12 +59,13 @@ skills, scripts, or runbooks it has not inspected.
 ## What Gets Installed
 
 The installer copies every skill under `skills/` into the selected agent's
-skills directory.
+skills directory. It also copies Markdown files under `context/` into the shared
+context directory.
 
 ```text
+context/
+  agentic-engineering-taste.md
 skills/
-  agentic-engineering-taste/
-    SKILL.md
   agents-md-builder/
     SKILL.md
     agents/openai.yaml
@@ -70,14 +74,16 @@ skills/
 
 ## Design Notes
 
-- The repo is a general skills collection. Add new reusable skills under
-  `skills/<skill-name>/`.
+- The repo is a general agent resources collection. Add new reusable skills under
+  `skills/<skill-name>/` and reusable router-loadable context under `context/`.
 - Keep each skill self-contained: `SKILL.md`, optional `references/`, optional
   `scripts/`, optional `assets/`, and optional `agents/openai.yaml`.
+- Keep context docs as plain Markdown. They are loaded by router rules; they are
+  not workflows and do not need `SKILL.md`.
 - Keep private repo details, tokens, local secrets, and machine-specific paths
   out of public skills.
 - Agent harness infrastructure should be judged against the taste bar in
-  `skills/agentic-engineering-taste/SKILL.md`.
+  `context/agentic-engineering-taste.md`.
 - `AGENTS.md` should be a router, not the whole rulebook.
 - Route tables should point to trusted docs, skills, scripts, and runbooks.
 - Weak or missing route targets should be listed as improvement candidates, not

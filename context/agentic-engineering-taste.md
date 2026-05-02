@@ -1,17 +1,8 @@
----
-name: agentic-engineering-taste
-description: Taste bar for agent harness infrastructure. Use when designing, reviewing, or refactoring AGENTS.md, CLAUDE.md, routing files, agent docs, skill systems, eval harnesses, install scripts, workflow automation, or other infrastructure that shapes how coding agents work.
----
-
 # Agentic Engineering Taste
 
-## Use
-
-Read this first when working on agent harness infrastructure, then continue with
-the concrete task. This is not a substitute for implementation, validation, or
-repo-specific evidence.
-
-Applies to:
+Use this when building or reviewing agent harness infrastructure. This is a
+context document, not a skill. Load it from a router such as `AGENTS.md` before
+working on:
 
 - `AGENTS.md` and `CLAUDE.md`
 - routing tables and instruction hierarchies

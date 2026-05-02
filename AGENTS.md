@@ -2,14 +2,15 @@
 
 ## Mission
 
-Maintain a small public collection of reusable agent skills that can be cloned
-and installed into a user's global Codex or Claude Code skills directory.
+Maintain a small public collection of reusable agent skills and context docs
+that can be cloned and installed into a user's global agent resource directories.
 
 ## Trusted Routing
 
 | Task type | Route first | Use when | Validation / guardrail |
 |---|---|---|---|
-| Agent harness infrastructure | `skills/agentic-engineering-taste/SKILL.md` | Working on AGENTS.md, CLAUDE.md, routing files, skills, eval harnesses, agent docs, or install workflows | Use this as the taste bar, then route to the specific skill/doc below |
+| Agent harness infrastructure | `context/agentic-engineering-taste.md` | Working on AGENTS.md, CLAUDE.md, routing files, skills, eval harnesses, agent docs, or install workflows | Use this as the taste bar, then route to the specific skill/doc below |
+| Shared context doc | `context/<name>.md` | Adding reusable background or taste that should be loaded by a router but is not itself a workflow | Keep it tool-neutral, public-safe, and easy to route to |
 | New skill | `skills/<skill-name>/SKILL.md` | Adding a reusable workflow to this collection | Keep each skill self-contained and validate with `quick_validate.py` |
 | Agents.md builder skill changes | `skills/agents-md-builder/SKILL.md` | Updating the AGENTS.md workflow, trigger description, question format, or route scoring | Keep the skill concise and workflow-shaped; do not add repo-specific private paths |
 | Quality-bar changes | `skills/agents-md-builder/references/router-quality-bar.md` | Updating standards for route confidence, table format, or question quality | Keep references general enough for public reuse |
