@@ -1,7 +1,8 @@
-# codex-skills
+# agent-skills
 
-Shared Codex skills for general workflows I want to reuse across repos and
-share with other people.
+Shared agent skills for general workflows I want to reuse across repos and
+share with other people. The skills use the `SKILL.md` directory format and can
+be installed for Codex or Claude Code.
 
 This repository is a home for reusable skills. `agents-md-builder` is one skill
 inside the collection, not the repo's whole identity.
@@ -9,26 +10,41 @@ inside the collection, not the repo's whole identity.
 ## Install
 
 ```bash
-git clone https://github.com/matiascshaha/codex-skills.git
-cd codex-skills
-./scripts/install.sh
+git clone https://github.com/matiascshaha/agent-skills.git
+cd agent-skills
+./scripts/install.sh --target codex
 ```
 
-By default the installer copies skills into:
+Install for Claude Code:
+
+```bash
+./scripts/install.sh --target claude
+```
+
+Install for both:
+
+```bash
+./scripts/install.sh --target both
+```
+
+Default destinations:
 
 ```text
-~/.codex/skills
+Codex:  ~/.codex/skills
+Claude: ~/.claude/skills
 ```
 
 Override the destination when needed:
 
 ```bash
-CODEX_SKILLS_DIR="$HOME/.codex/skills" ./scripts/install.sh
+./scripts/install.sh --target codex --skills-dir "$HOME/.codex/skills"
+./scripts/install.sh --target claude --skills-dir "$HOME/.claude/skills"
 ```
 
 ## Use
 
-Start a new Codex session after installing, then ask for a skill by name:
+Start a new Codex or Claude Code session after installing, then ask for a skill
+by name:
 
 ```text
 Use agents-md-builder to create an AGENTS.md router for this repo.
@@ -39,7 +55,7 @@ skills, scripts, or runbooks it has not inspected.
 
 ## What Gets Installed
 
-The installer copies every skill under `skills/` into the configured Codex
+The installer copies every skill under `skills/` into the selected agent's
 skills directory.
 
 ```text

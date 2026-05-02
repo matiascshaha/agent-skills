@@ -3,33 +3,51 @@ set -euo pipefail
 
 usage() {
   cat <<'USAGE'
-Install Codex skills from this repository.
+Install agent skills from this repository.
 
 Usage:
-  ./scripts/install.sh [--skills-dir PATH] [--dry-run] [--list]
+  ./scripts/install.sh [--target codex|claude|both] [--skills-dir PATH] [--dry-run] [--list]
 
 Defaults:
-  skills dir = ${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}
+  target = codex
+  Codex skills dir = ${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}
+  Claude skills dir = ${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}
 
 Examples:
   ./scripts/install.sh
-  ./scripts/install.sh --skills-dir "$HOME/.codex/skills"
-  CODEX_SKILLS_DIR="$HOME/.codex/skills" ./scripts/install.sh
+  ./scripts/install.sh --target codex
+  ./scripts/install.sh --target claude
+  ./scripts/install.sh --target both
+  ./scripts/install.sh --target claude --skills-dir "$HOME/.claude/skills"
 USAGE
 }
 
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 source_dir="$repo_root/skills"
-skills_dir="${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}"
+target_host="codex"
+custom_skills_dir=""
 dry_run=0
 list_only=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
+    --target)
+      [[ $# -ge 2 ]] || { echo "ERROR: --target requires codex, claude, or both" >&2; exit 2; }
+      case "$2" in
+        codex|claude|both)
+          target_host="$2"
+          ;;
+        *)
+          echo "ERROR: --target must be codex, claude, or both" >&2
+          exit 2
+          ;;
+      esac
+      shift 2
+      ;;
     --skills-dir)
       [[ $# -ge 2 ]] || { echo "ERROR: --skills-dir requires a path" >&2; exit 2; }
-      skills_dir="$2"
+      custom_skills_dir="$2"
       shift 2
       ;;
     --dry-run)
@@ -71,38 +89,63 @@ if [[ "$list_only" -eq 1 ]]; then
   exit 0
 fi
 
-echo "Installing $skill_count skill(s) into: $skills_dir"
+install_to_dir() {
+  local skills_dir="$1"
+  local host_label="$2"
 
-if [[ "$dry_run" -eq 0 ]]; then
-  mkdir -p "$skills_dir"
-fi
+  echo "Installing $skill_count skill(s) for $host_label into: $skills_dir"
 
-find "$source_dir" -mindepth 1 -maxdepth 1 -type d | sort | while IFS= read -r skill; do
-  name="$(basename "$skill")"
-  target="$skills_dir/$name"
-  tmp_target="${target}.tmp.$$"
-
-  if [[ ! -f "$skill/SKILL.md" ]]; then
-    echo "ERROR: missing SKILL.md for skill: $name" >&2
-    exit 1
+  if [[ "$dry_run" -eq 0 ]]; then
+    mkdir -p "$skills_dir"
   fi
 
-  if [[ -e "$target" && ! -d "$target" ]]; then
-    echo "ERROR: target exists but is not a directory: $target" >&2
-    exit 1
-  fi
+  find "$source_dir" -mindepth 1 -maxdepth 1 -type d | sort | while IFS= read -r skill; do
+    name="$(basename "$skill")"
+    target="$skills_dir/$name"
+    tmp_target="${target}.tmp.$$"
 
-  if [[ "$dry_run" -eq 1 ]]; then
-    echo "Would install $name -> $target"
-    continue
-  fi
+    if [[ ! -f "$skill/SKILL.md" ]]; then
+      echo "ERROR: missing SKILL.md for skill: $name" >&2
+      exit 1
+    fi
 
-  rm -rf "$tmp_target"
-  mkdir -p "$tmp_target"
-  cp -R "$skill"/. "$tmp_target"/
-  rm -rf "$target"
-  mv "$tmp_target" "$target"
-  echo "Installed $name -> $target"
-done
+    if [[ -e "$target" && ! -d "$target" ]]; then
+      echo "ERROR: target exists but is not a directory: $target" >&2
+      exit 1
+    fi
 
-echo "Done. Restart Codex or start a new session so newly installed skills are discovered."
+    if [[ "$dry_run" -eq 1 ]]; then
+      echo "Would install $name -> $target"
+      continue
+    fi
+
+    rm -rf "$tmp_target"
+    mkdir -p "$tmp_target"
+    cp -R "$skill"/. "$tmp_target"/
+    rm -rf "$target"
+    mv "$tmp_target" "$target"
+    echo "Installed $name -> $target"
+  done
+}
+
+codex_dir="${custom_skills_dir:-${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}}"
+claude_dir="${custom_skills_dir:-${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}}"
+
+case "$target_host" in
+  codex)
+    install_to_dir "$codex_dir" "Codex"
+    ;;
+  claude)
+    install_to_dir "$claude_dir" "Claude"
+    ;;
+  both)
+    if [[ -n "$custom_skills_dir" ]]; then
+      echo "ERROR: --skills-dir cannot be combined with --target both; use CODEX_SKILLS_DIR and CLAUDE_SKILLS_DIR instead" >&2
+      exit 2
+    fi
+    install_to_dir "$codex_dir" "Codex"
+    install_to_dir "$claude_dir" "Claude"
+    ;;
+esac
+
+echo "Done. Start a new session so newly installed skills are discovered."

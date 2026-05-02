@@ -2,8 +2,8 @@
 
 ## Mission
 
-Maintain a small public collection of reusable Codex skills that can be cloned
-and installed into a user's global skills directory.
+Maintain a small public collection of reusable agent skills that can be cloned
+and installed into a user's global Codex or Claude Code skills directory.
 
 ## Trusted Routing
 
@@ -12,7 +12,7 @@ and installed into a user's global skills directory.
 | New skill | `skills/<skill-name>/SKILL.md` | Adding a reusable workflow to this collection | Keep each skill self-contained and validate with `quick_validate.py` |
 | Agents.md builder skill changes | `skills/agents-md-builder/SKILL.md` | Updating the AGENTS.md workflow, trigger description, question format, or route scoring | Keep the skill concise and workflow-shaped; do not add repo-specific private paths |
 | Quality-bar changes | `skills/agents-md-builder/references/router-quality-bar.md` | Updating standards for route confidence, table format, or question quality | Keep references general enough for public reuse |
-| Installer changes | `scripts/install.sh` | Changing how cloned skills are copied into a local Codex skills directory | Test with a temporary `CODEX_SKILLS_DIR` before publishing |
+| Installer changes | `scripts/install.sh` | Changing how cloned skills are copied into local Codex or Claude skills directories | Test Codex and Claude targets with temporary directories before publishing |
 | Distribution docs | `README.md` | Changing clone, install, or usage instructions | Keep commands copy-pasteable |
 
 ## Workflow
