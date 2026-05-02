@@ -1,16 +1,16 @@
-# agents-md-builder
+# codex-skills
 
-Reusable Codex skill for building evidence-backed `AGENTS.md` router files.
+Shared Codex skills for general workflows I want to reuse across repos and
+share with other people.
 
-The skill helps an agent inspect a repository, identify only trustworthy route
-targets, score route confidence, ask decision questions when needed, and patch a
-small `AGENTS.md` instead of inventing a giant stale rulebook.
+This repository is a home for reusable skills. `agents-md-builder` is one skill
+inside the collection, not the repo's whole identity.
 
 ## Install
 
 ```bash
-git clone https://github.com/matiascshaha/agents-md-builder.git
-cd agents-md-builder
+git clone https://github.com/matiascshaha/codex-skills.git
+cd codex-skills
 ./scripts/install.sh
 ```
 
@@ -28,7 +28,7 @@ CODEX_SKILLS_DIR="$HOME/.codex/skills" ./scripts/install.sh
 
 ## Use
 
-Start a new Codex session after installing, then ask for the skill by name:
+Start a new Codex session after installing, then ask for a skill by name:
 
 ```text
 Use agents-md-builder to create an AGENTS.md router for this repo.
@@ -38,6 +38,9 @@ The skill is intentionally conservative. It should not add routes to docs,
 skills, scripts, or runbooks it has not inspected.
 
 ## What Gets Installed
+
+The installer copies every skill under `skills/` into the configured Codex
+skills directory.
 
 ```text
 skills/
@@ -49,6 +52,12 @@ skills/
 
 ## Design Notes
 
+- The repo is a general skills collection. Add new reusable skills under
+  `skills/<skill-name>/`.
+- Keep each skill self-contained: `SKILL.md`, optional `references/`, optional
+  `scripts/`, optional `assets/`, and optional `agents/openai.yaml`.
+- Keep private repo details, tokens, local secrets, and machine-specific paths
+  out of public skills.
 - `AGENTS.md` should be a router, not the whole rulebook.
 - Route tables should point to trusted docs, skills, scripts, and runbooks.
 - Weak or missing route targets should be listed as improvement candidates, not
