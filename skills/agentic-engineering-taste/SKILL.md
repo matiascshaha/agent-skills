@@ -1,15 +1,31 @@
+---
+name: agentic-engineering-taste
+description: Taste bar for agent harness infrastructure. Use when designing, reviewing, or refactoring AGENTS.md, CLAUDE.md, routing files, agent docs, skill systems, eval harnesses, install scripts, workflow automation, or other infrastructure that shapes how coding agents work.
+---
+
 # Agentic Engineering Taste
 
-Use this when building or reviewing agent harness infrastructure: `AGENTS.md`,
-`CLAUDE.md`, routing files, skill systems, eval harnesses, agent docs, install
-scripts, and workflow automation.
+## Use
+
+Read this first when working on agent harness infrastructure, then continue with
+the concrete task. This is not a substitute for implementation, validation, or
+repo-specific evidence.
+
+Applies to:
+
+- `AGENTS.md` and `CLAUDE.md`
+- routing tables and instruction hierarchies
+- skills and skill collections
+- eval harnesses and test corpora for agent behavior
+- installer scripts and shared workflow tooling
+- agent docs, runbooks, and workflow automation
 
 ## Taste Anchors
 
 The quality bar should be informed by builders and teams who have shaped
 practical agentic engineering:
 
-- gstack's creator and workflow style
+- Garry Tan and the gstack workflow style
 - Andrej Karpathy's emphasis on human-in-the-loop AI, readable systems, and
   building with the model as part of the loop
 - Anthropic engineers working on Claude Code, Skills, tool use, and agent safety

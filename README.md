@@ -60,10 +60,11 @@ skills directory.
 
 ```text
 skills/
+  agentic-engineering-taste/
+    SKILL.md
   agents-md-builder/
     SKILL.md
     agents/openai.yaml
-    references/agentic-engineering-taste.md
     references/router-quality-bar.md
 ```
 
@@ -76,7 +77,7 @@ skills/
 - Keep private repo details, tokens, local secrets, and machine-specific paths
   out of public skills.
 - Agent harness infrastructure should be judged against the taste bar in
-  `skills/agents-md-builder/references/agentic-engineering-taste.md`.
+  `skills/agentic-engineering-taste/SKILL.md`.
 - `AGENTS.md` should be a router, not the whole rulebook.
 - Route tables should point to trusted docs, skills, scripts, and runbooks.
 - Weak or missing route targets should be listed as improvement candidates, not
