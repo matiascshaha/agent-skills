@@ -1,0 +1,4 @@
+interface:
+  display_name: "Agents.md Builder"
+  short_description: "Build evidence-backed AGENTS.md routers"
+  default_prompt: "Use this skill to audit a repository and create or improve an AGENTS.md router."
