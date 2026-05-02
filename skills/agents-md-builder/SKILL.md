@@ -11,7 +11,10 @@ Create a small, evidence-backed project router. Do not write a giant rulebook.
 Route only to docs, skills, scripts, and workflows that exist and are good
 enough to trust.
 
-Read `references/router-quality-bar.md` before making recommendations or edits.
+Read before making recommendations or edits:
+
+1. `references/router-quality-bar.md`
+2. `references/agentic-engineering-taste.md`
 
 ## Workflow
 
